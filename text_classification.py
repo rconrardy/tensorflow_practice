@@ -18,4 +18,28 @@ word_index["<UNK>"] = 2 # unknown
 word_index["<UNUSED>"] = 3
 
 reverse_word_index = dict([(value, key) for (key, value) in word_index.items()])
-print(reverse_word_index[4])
+
+def decode_review(text):
+    return ' '.join([reverse_word_index.get(i, '?') for i in text])
+
+x_train = tf.keras.preprocessing.sequence.pad_sequence(
+    x_train,
+    value=word_index["<PAD>"],
+    padding='post',
+    maxlen=256
+)
+
+x_test = tf.keras.preprocessing.sequence.pad_sequence(
+    x_test,
+    value=word_index["<PAD>"],
+    padding='post',
+    maxlen=256
+)
+
+vocab_size = 10000
+
+model = tf.keras.Sequential(
+    tf.keras.layers.Embedding(vocab_size, 16)
+    tf.keras.layers.GlobalAveragePooling1D()
+    
+)
